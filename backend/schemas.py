@@ -63,3 +63,24 @@ class UserLogin(UserBase):
     password: str
 
 
+# update user schema
+class UserUpdate(BaseModel):
+    name: str | None = None
+    username: str | None = None
+    avatar: str | None = None
+    bio: str | None = None
+
+    class Config:
+        orm_mode = True
+
+
+# update social schema
+class SocialUpdate(BaseModel):
+    blog: str | None = None
+    github: str | None = None
+    linkedin: str | None = None
+    twitter: str | None = None
+    portfolio: str | None = None
+
+    class Config:
+        orm_mode = True

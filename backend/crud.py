@@ -49,3 +49,16 @@ def create_user_projects(db: Session, project: schemas.ProjectCreate, user_id: i
     db.commit()
     db.refresh(db_project)
     return db_project
+
+
+def update_user_socials(db: Session, social: schemas.SocialUpdate, user_id: int):
+    db_social = db.query(models.Social).filter(models.Social.owner_id == user_id).first()
+    db_social.github = social.github if social.github is not None else db_social.github
+    db_social.linkedin = social.linkedin if social.linkedin is not None else db_social.linkedin
+    db_social.twitter = social.twitter if social.twitter is not None else db_social.twitter
+    db_social.portfolio = social.portfolio if social.portfolio is not None else db_social.portfolio
+    db_social.blog = social.blog if social.blog is not None else db_social.blog
+    db.commit()
+    db.refresh(db_social)
+    return db_social
+

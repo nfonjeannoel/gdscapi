@@ -61,6 +61,7 @@ def read_user_projects(user_id: int, skip: int = 0, limit: int = 100, db: Sessio
     projects = crud.get_user_projects(db, user_id=user_id, skip=skip, limit=limit)
     return projects
 
+
 # create endpoint to login a user
 @app.post("/login/", response_model=schemas.User)
 def login_user(user: schemas.UserLogin, db: Session = Depends(get_db)):
@@ -70,3 +71,9 @@ def login_user(user: schemas.UserLogin, db: Session = Depends(get_db)):
     if db_user.password != user.password:
         raise HTTPException(status_code=400, detail="Incorrect password")
     return db_user
+
+
+# endpoint to update user socials
+@app.put("/users/{user_id}/socialUpdate/", response_model=schemas.Social)
+def update_social_for_user(user_id: int, social: schemas.SocialUpdate, db: Session = Depends(get_db)):
+    return crud.update_user_socials(db=db, social=social, user_id=user_id)
