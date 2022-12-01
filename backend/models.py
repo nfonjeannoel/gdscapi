@@ -2,6 +2,7 @@ from sqlalchemy import Column, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 
 from database import Base
+import passlib.hash as _hash
 
 
 class User(Base):
@@ -9,7 +10,7 @@ class User(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     email = Column(String, unique=True, index=True)
-    password = Column(String, index=True)
+    password = Column(String)
     name = Column(String, index=True)
     username = Column(String, index=True)
     avatar = Column(String, index=True)
@@ -17,6 +18,20 @@ class User(Base):
 
     socials = relationship("Social", back_populates="owner")
     projects = relationship("Project", back_populates="owner")
+
+    def verify_password(self, password: str):
+        return _hash.bcrypt.verify(password, self.password)
+
+    def __str__(self):
+        return f"""
+        email: {self.email}
+        name: {self.name}
+        username: {self.username}
+        avatar: {self.avatar}
+        bio: {self.bio}
+        socials: {self.socials}
+        projects: {self.projects}
+        """
 
 
 class Social(Base):

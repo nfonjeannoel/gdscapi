@@ -48,7 +48,7 @@ class UserCreate(UserBase):
 
 class User(UserBase):
     id: int
-    socials: list[Social] = []
+    socials: list[Social] | None = None
     projects: list[Project] = []
     name: str | None = None
     username: str | None = None
